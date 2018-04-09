@@ -137,6 +137,22 @@ app.post('/users', async function(req, res) {
 	}
 
 });
+
+//// START: RATNAKAR
+app.post('/usrpwd', async function(req, res) {
+        logger.info('<<<<<<<<<<<<<<<<< UPDATE USER SECRET >>>>>>>>>>>>>>>>>');
+        logger.debug('End point : /usrpwd');
+        var pswd = req.body.pswd;
+        logger.debug('Password : ' + pswd);
+        if (!pswd) {
+                res.json(getErrorMessage('\'pswd\''));
+                return;
+        }
+
+        let message = await helper.updatePassword(pswd, req.username, req.orgname);
+        res.send(message);
+});
+//// END: RATNAKAR
 // Create Channel
 app.post('/channels', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');

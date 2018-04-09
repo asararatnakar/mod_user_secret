@@ -9,7 +9,7 @@
 .project
 
 # balance transfer sample
-balance-transfer/.DS_Store
-balance-transfer/node_modules/*
-balance-transfer/package-lock.json
-balance-transfer/fabric-client-kv-org*
+.DS_Store
+node_modules/*
+package-lock.json
+fabric-client-kv-org*

@@ -71,6 +71,21 @@ async function getClientForOrg (userorg, username) {
 	return client;
 }
 
+//// START : RATNAKAR
+var updatePassword = async function(pswd, username, userOrg){
+        var c = await getClientForOrg(userOrg);
+        let caClient = c.getCertificateAuthority();
+        let hfcaIdentityService = caClient.newIdentityService();
+        var admins = hfc.getConfigSetting('admins');
+        let adminUser = await c.setUserContext({username: admins[0].username, password: admins[0].secret});
+        let update = {
+                affiliation: 'org1.department1',
+                enrollmentSecret: 'mysecret'
+        };
+        return await hfcaIdentityService.update(username, update, adminUser);
+
+};
+//// END : RATNAKAR
 var getRegisteredUser = async function(username, userOrg, isJson) {
 	try {
 		var client = await getClientForOrg(userOrg);
@@ -90,7 +105,7 @@ var getRegisteredUser = async function(username, userOrg, isJson) {
 				enrollmentID: username,
 				affiliation: userOrg.toLowerCase() + '.department1'
 			}, adminUserObj);
-			logger.debug('Successfully got the secret for user %s',username);
+			logger.debug('Successfully got the secret:%s for user %s',secret, username);
 			user = await client.setUserContext({username:username, password:secret});
 			logger.debug('Successfully enrolled username %s  and setUserContext on the client object', username);
 		}
@@ -128,3 +143,4 @@ exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
 exports.getRegisteredUser = getRegisteredUser;
+exports.updatePassword = updatePassword;
